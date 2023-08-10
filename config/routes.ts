@@ -40,16 +40,34 @@ export default [
     ],
   },
   {
-    name: 'list.file-center',
+    name: '裁判图片上传',
     icon: 'table',
-    path: '/center',
-    component: './FileCenter',
+    path: '/judgeCenter',
+    component: './FileCenter/JudgeCenter',
   },
   {
-    name: 'list.img-list',
+    name: '用户图片上传',
     icon: 'table',
-    path: '/imgList',
-    component: './ImgList',
+    path: '/userCenter',
+    component: './FileCenter/UserCenter',
+  },
+  {
+    name: '裁判图片列表',
+    icon: 'table',
+    path: '/judgeImgList',
+    component: './ImgList/JudgeList',
+  },
+  {
+    name: '用户图片列表',
+    icon: 'table',
+    path: '/userImgList',
+    component: './ImgList/UserList',
+  },
+  {
+    name: '人工复核图片列表',
+    icon: 'table',
+    path: '/ArtifList',
+    component: './ImgList/ArtifList',
   },
   {
     path: '/imgSegament/:id',
@@ -60,7 +78,7 @@ export default [
   },
   {
     path: '/',
-    redirect: '/center',
+    redirect: '/judgeCenter',
   },
   {
     path: '*',

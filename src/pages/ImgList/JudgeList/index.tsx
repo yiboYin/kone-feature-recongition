@@ -1,36 +1,27 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { request } from 'umi'
 import { PageContainer } from '@ant-design/pro-components';
-import { imgItem } from '@/utils/interfaces'
-import { Spin } from 'antd';
-import { getAllFiles } from '@/services/apis'
+import { imageItem } from '@/utils/interfaces'
+import { Spin, FloatButton } from 'antd';
+import { QueryList } from '@/services/apis'
 import ImgCard from './comp/ImgCard'
 import ConfirmModal from '@/components/ConfirmModal';
-import { WEB_SERVE } from '@/utils/constants';
+import { LeftOutlined, RightOutlined } from '@ant-design/icons'
 import "./index.less";
 
 const ImgList: React.FC = () => {
-  const [imgList, setImgList] = useState<Array<imgItem>>([]);
+  const [imgList, setImgList] = useState<Array<imageItem>>([]);
   const [loading, setLoading] = useState<boolean>(true)
   const [current, setCurrent] = useState<number>(0)
+  const [count, SetCount] = useState<number>(0)
   const initImgList = async () => {
     setLoading(true)
-    // const result = await request('http://localhost:5000/api/get-all-files', {
-    //   method: 'get'
-    // })
     try {
-      const result = await getAllFiles({current, pageSize: 10});
+      const result = await QueryList({page_number: current, page_size: 10, img_type: '1'});
       console.log('调试 ---- ', result);
       console.log('result', result.data)
-      setCurrent(current + 1)
-      const imgList = result.data.map((item:string) => {
-        return {
-          src: `${WEB_SERVE}/${item}`,
-          fileName: item.split("/")[1],
-          segamentCount: 0
-        }
-      })
-      setImgList(imgList)
+      setImgList(result?.data);
+      SetCount(result?.count || 0);
       setLoading(false)
     } catch (e) {
       console.log('e !!!! --- ', e )
@@ -41,6 +32,10 @@ const ImgList: React.FC = () => {
   useEffect(() => {
     initImgList()
   }, [])
+
+  useEffect(() => {
+    initImgList()
+  }, [current])
 
   const MODAL_TITLE = '确认删除'
   const MODAL_CONTENT = '确认要删除此文件？'
@@ -74,7 +69,7 @@ const ImgList: React.FC = () => {
         {
           imgList.length > 0 && imgList.map(ele =>
             <ImgCard
-              key={ele.fileName}
+              key={ele.id}
               imgItem={ele}
               deleteHandler={deleteConfirm}
             />
@@ -88,6 +83,10 @@ const ImgList: React.FC = () => {
         handleOk={deleteHandler}
         handleCancel={cancelDelete}
       />
+      <FloatButton.Group shape="square" style={{ right: 94 }}>
+        <FloatButton icon={<LeftOutlined />} onClick={() => {current < (count % 10) && setCurrent(current + 1)}} />
+        <FloatButton icon={<RightOutlined />} onClick={() => {current > 0 && setCurrent(current - 1)}} />
+    </FloatButton.Group>
     </PageContainer>
   );
 };

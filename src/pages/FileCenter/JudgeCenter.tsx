@@ -12,6 +12,7 @@ const props: UploadProps = {
   multiple: true,
   directory: true,
   action: `${WEB_SERVE}/api/upload-files`,
+  data: {img_type: 1},
   onChange(info) {
     const { status } = info.file;
     if (status !== 'uploading') {
@@ -29,7 +30,7 @@ const props: UploadProps = {
 };
 
 // TODO: mix file ImgList into FileCenter
-const FileCenter: React.FC = () => {
+const JudgeCenter: React.FC = () => {
   return (
     <PageContainer>
       <Dragger {...props}>
@@ -46,4 +47,4 @@ const FileCenter: React.FC = () => {
   );
 };
 
-export default FileCenter;
+export default JudgeCenter;

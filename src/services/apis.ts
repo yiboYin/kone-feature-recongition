@@ -1,6 +1,19 @@
 import { request } from '@umijs/max';
 import { WEB_SERVE } from '@/utils/constants'
 
+/** 获取图片列表 GET /api/query-list */
+export async function QueryList(params: API.QueryListParams, options?: { [key: string]: any }) {
+  return request<{
+    data: API.QueryList;
+  }>(`${WEB_SERVE}/api/query-list`, {
+    method: 'GET',
+    params: {
+      ...params
+    },
+    ...(options || {}),
+  });
+}
+
 /** 获取图片列表 GET /api/get-all-files */
 export async function getAllFiles(params: API.GetAllFilesParams, options?: { [key: string]: any }) {
   return request<{

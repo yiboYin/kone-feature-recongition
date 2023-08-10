@@ -1,4 +1,16 @@
 declare namespace API {
+    type QueryList = {
+        data?: Array<imageItem>;
+        count?: number;
+        success: boolean;
+    };
+
+    type QueryListParams = {
+        page_number?: number;
+        page_size?: number;
+        img_type?: string;
+    };
+
     type GetAllFiles = {
         data: Array<string>;
         success: boolean;

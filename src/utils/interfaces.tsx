@@ -1,4 +1,14 @@
 import { Tensor } from "onnxruntime-web";
+export interface imageItem {
+  id: string,
+  scene_id: string,
+  user_id: string,
+  img_path: string,
+  img_type: string,
+  judge_sign: string,
+  judge_score: string,
+  artificial_judge_sign: string
+}
 
 export interface imgItem {
   src: string,
@@ -7,7 +17,7 @@ export interface imgItem {
 }
 
 export interface ImgCardProps {
-  imgItem: imgItem,
+  imgItem: imageItem,
   deleteHandler: (e: any | null) => void;
 }
 
