@@ -8,9 +8,12 @@ import { WEB_SERVE } from '@/utils/constants';
 
 const { Meta } = Card;
 
-const ImgCard = ({ imgItem, deleteHandler }: ImgCardProps) => {
+const ImgCard = ({ imgItem, deleteHandler, setEditImg }: ImgCardProps) => {
   const { img_path } = imgItem
-  // const deleteHandler = () => {}
+  const delBtnHandler = () => {
+    setEditImg(imgItem)
+    deleteHandler(null)
+  }
 
   return (
     <Card
@@ -18,7 +21,7 @@ const ImgCard = ({ imgItem, deleteHandler }: ImgCardProps) => {
       style={{ width: '18.5%' }}
       bodyStyle={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}
       actions={[
-        <DeleteOutlined key="del" onClick={deleteHandler} />,
+        <DeleteOutlined key="del" onClick={delBtnHandler} />,
       ]}
     >
       <Image src={`${WEB_SERVE}/${img_path}`} />

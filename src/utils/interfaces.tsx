@@ -18,7 +18,9 @@ export interface imgItem {
 
 export interface ImgCardProps {
   imgItem: imageItem,
-  deleteHandler: (e: any | null) => void;
+  deleteHandler?: (e: any | null) => void;
+  setEditImg?: (e: any | null) => void;
+  initImgList?: (e: any | null) => void;
 }
 
 export interface StageWarpperProps {

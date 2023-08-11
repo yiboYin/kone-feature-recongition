@@ -14,6 +14,30 @@ export async function QueryList(params: API.QueryListParams, options?: { [key: s
   });
 }
 
+/** 删除特征 DELETE /api/delete-features */
+export async function DeleteFile(body: API.DeleteFileParams, options?: { [key: string]: any }) {
+  return request<{data: API.generalResult}>(`${WEB_SERVE}/api/delete`, {
+    method: 'DELETE',
+    data: body,
+    ...(options || {}),
+  });
+}
+
+
+/** 上传特征 POST /api/generate-judgment */
+export async function generateJudgment(body: API.GenerateJudgmentParams, options?: { [key: string]: any }) {
+  return request<API.generalResult>(`${WEB_SERVE}/api/generate-judgment`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  });
+}
+
+
+
 /** 获取图片列表 GET /api/get-all-files */
 export async function getAllFiles(params: API.GetAllFilesParams, options?: { [key: string]: any }) {
   return request<{

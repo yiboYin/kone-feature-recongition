@@ -9,6 +9,21 @@ declare namespace API {
         page_number?: number;
         page_size?: number;
         img_type?: string;
+        judge_sign?: string;
+    };
+
+    type generalResult = {
+        data: string;
+        success: boolean;
+    };
+
+    type DeleteFileParams = {
+        ids?: string[];
+        img_type: string;
+    };
+
+    type GenerateJudgmentParams = {
+        ids?: string[]
     };
 
     type GetAllFiles = {

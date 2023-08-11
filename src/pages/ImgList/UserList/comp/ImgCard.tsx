@@ -1,34 +1,41 @@
 import React from 'react';
-import { ImgCardProps } from '@/utils/interfaces'
-import { Card, Image } from 'antd';
+import { ImgCardProps, imageItem } from '@/utils/interfaces'
+import { Card, Image, message } from 'antd';
 import './ImgCard.less'
 import { HighlightOutlined, ExclamationCircleOutlined } from '@ant-design/icons'
 import { WEB_SERVE } from '@/utils/constants';
+import { generateJudgment } from '@/services/apis';
 
-const setJudgeBtn = () => {
-  const clickHandler = () => {
-    console.log('say hello1')
-  }
-  return <HighlightOutlined key='judge' onClick={clickHandler} />
-}
-
-const setArtifBtn = () => {
-  const clickHandler = () => {
-    console.log('say hello2')
-  }
-  return <ExclamationCircleOutlined key='artif' onClick={clickHandler} />
-}
-
-const ImgCard = ({ imgItem }: ImgCardProps) => {
+const ImgCard = ({ imgItem, initImgList }: ImgCardProps) => {
   const { img_path, artificial_judge_sign, judge_score, judge_sign } = imgItem
-  // const deleteHandler = () => {}
 
   let btns = [];
+  const setJudgeBtn = () => {
+    const clickHandler = async () => {
+      const fileName = img_path.split('/').pop();
+      const {success} = await generateJudgment({ids: [fileName] });
+      if (success) {
+        message.success('设置成功！')
+        initImgList()
+      } else {
+        message.error('设置失败！')
+      }
+    }
+    return <HighlightOutlined key='judge' onClick={clickHandler} />
+  }
+
+  const setArtifBtn = () => {
+    const clickHandler = () => {
+      console.log('say hello2')
+    }
+    return <ExclamationCircleOutlined key='artif' onClick={clickHandler} />
+  }
+
   if (judge_score && parseFloat(judge_score) >= 0.5 && judge_sign !== '1') {
     btns.push(setJudgeBtn())
   }
   if (judge_score && parseFloat(judge_score) < 0.5 && artificial_judge_sign === '') {
-    btns.push(setArtifBtn())
+    btns.push(setArtifBtn(imgItem))
   }
   const ARTIF_STATUS_ENUMS = {
     '1': '审核中',

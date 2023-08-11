@@ -2,8 +2,8 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { request } from 'umi'
 import { PageContainer } from '@ant-design/pro-components';
 import { imageItem } from '@/utils/interfaces'
-import { Spin, FloatButton } from 'antd';
-import { QueryList } from '@/services/apis'
+import { Spin, FloatButton, message } from 'antd';
+import { QueryList, DeleteFile } from '@/services/apis'
 import ImgCard from './comp/ImgCard'
 import ConfirmModal from '@/components/ConfirmModal';
 import { LeftOutlined, RightOutlined } from '@ant-design/icons'
@@ -13,7 +13,8 @@ const ImgList: React.FC = () => {
   const [imgList, setImgList] = useState<Array<imageItem>>([]);
   const [loading, setLoading] = useState<boolean>(true)
   const [current, setCurrent] = useState<number>(0)
-  const [count, SetCount] = useState<number>(0)
+  const [count, setCount] = useState<number>(0)
+  const [editImg, setEditImg] = useState<imageItem>();
   const initImgList = async () => {
     setLoading(true)
     try {
@@ -21,17 +22,13 @@ const ImgList: React.FC = () => {
       console.log('调试 ---- ', result);
       console.log('result', result.data)
       setImgList(result?.data);
-      SetCount(result?.count || 0);
+      setCount(result?.count || 0);
       setLoading(false)
     } catch (e) {
       console.log('e !!!! --- ', e )
       setLoading(false)
     }
   }
-
-  useEffect(() => {
-    initImgList()
-  }, [])
 
   useEffect(() => {
     initImgList()
@@ -49,7 +46,18 @@ const ImgList: React.FC = () => {
   }
 
 
-  const deleteHandler = () => {
+  const deleteHandler = async () => {
+    console.log(editImg);
+    const { img_path, img_type } = editImg;
+    const fileName = img_path.split('/').pop();
+    const {success} = await DeleteFile({ids: [fileName], img_type });
+    if (success) {
+      message.success('删除成功！')
+      initImgList()
+    } else {
+      message.error('删除失败！')
+    }
+
     // TODO 删除数据
     setShowModal(false)
   }
@@ -72,6 +80,7 @@ const ImgList: React.FC = () => {
               key={ele.id}
               imgItem={ele}
               deleteHandler={deleteConfirm}
+              setEditImg={setEditImg}
             />
           )
         }
