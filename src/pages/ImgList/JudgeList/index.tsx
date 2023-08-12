@@ -23,6 +23,7 @@ const ImgList: React.FC = () => {
       console.log('result', result.data)
       setImgList(result?.data);
       setCount(result?.count || 0);
+      console.log(current, (count % 10), current < (count % 10))
       setLoading(false)
     } catch (e) {
       console.log('e !!!! --- ', e )
@@ -101,8 +102,8 @@ const ImgList: React.FC = () => {
         handleCancel={cancelDelete}
       />
       <FloatButton.Group shape="square" style={{ right: 94 }}>
-        <FloatButton icon={<LeftOutlined />} onClick={() => {current < (count % 10) && setCurrent(current + 1)}} />
-        <FloatButton icon={<RightOutlined />} onClick={() => {current > 0 && setCurrent(current - 1)}} />
+        <FloatButton icon={<LeftOutlined />} onClick={() => {current > 0 && setCurrent(current - 1)}} />
+        <FloatButton icon={<RightOutlined />} onClick={() => {current < Math.floor(count/10) && setCurrent(current + 1)}} />
         <FloatButton icon={<ReloadOutlined />} onClick={() => triggerHandler()} />
     </FloatButton.Group>
     </PageContainer>
