@@ -12,7 +12,7 @@ import "./index.less";
 const ImgList: React.FC = () => {
   const [imgList, setImgList] = useState<Array<imageItem>>([]);
   const [loading, setLoading] = useState<boolean>(true)
-  const [current, setCurrent] = useState<number>(0)
+  const [current, setCurrent] = useState<number>(1)
   const [count, setCount] = useState<number>(0)
   const [editImg, setEditImg] = useState<imageItem>();
   const initImgList = async () => {
@@ -103,7 +103,7 @@ const ImgList: React.FC = () => {
       />
       <FloatButton.Group shape="square" style={{ right: 94 }}>
         <FloatButton icon={<LeftOutlined />} onClick={() => {current > 0 && setCurrent(current - 1)}} />
-        <FloatButton icon={<RightOutlined />} onClick={() => {current < Math.floor(count/10) && setCurrent(current + 1)}} />
+        <FloatButton icon={<RightOutlined />} onClick={() => {current < (1+Math.floor(count/10)) && setCurrent(current + 1)}} />
         <FloatButton icon={<ReloadOutlined />} onClick={() => triggerHandler()} />
     </FloatButton.Group>
     </PageContainer>
