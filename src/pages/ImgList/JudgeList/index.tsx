@@ -51,7 +51,7 @@ const ImgList: React.FC = () => {
     console.log(editImg);
     const { img_path, img_type } = editImg;
     const fileName = img_path.split('/').pop();
-    const {success} = await DeleteFile({ids: [fileName], img_type });
+    const {success} = await DeleteFile({ids: [fileName], img_type: '1' });
     if (success) {
       message.success('删除成功！')
       initImgList()
