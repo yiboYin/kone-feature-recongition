@@ -66,6 +66,14 @@ const ImgList: React.FC = () => {
     // TODO 删除数据
     setShowModal(false)
   }
+  const triggerHandler = async () => {
+    const { success = false } = await triggerJudgment()
+    if (success) {
+      message.success('打分成功！')
+    } else {
+      message.error('打分失败！')
+    }
+  }
 
   return (
     <PageContainer>
@@ -95,7 +103,7 @@ const ImgList: React.FC = () => {
       <FloatButton.Group shape="square" style={{ right: 94 }}>
         <FloatButton icon={<LeftOutlined />} onClick={() => {current < (count % 10) && setCurrent(current + 1)}} />
         <FloatButton icon={<RightOutlined />} onClick={() => {current > 0 && setCurrent(current - 1)}} />
-        <FloatButton icon={<ReloadOutlined />} onClick={() => triggerJudgment()} />
+        <FloatButton icon={<ReloadOutlined />} onClick={() => triggerHandler()} />
     </FloatButton.Group>
     </PageContainer>
   );
