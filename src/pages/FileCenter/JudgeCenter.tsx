@@ -10,7 +10,6 @@ const { Dragger } = Upload;
 const props: UploadProps = {
   name: 'files',
   multiple: true,
-  directory: true,
   action: `${WEB_SERVE}/api/upload-files`,
   data: {img_type: 1},
   onChange(info) {
@@ -28,6 +27,7 @@ const props: UploadProps = {
     console.log('Dropped files', e.dataTransfer.files);
   },
 };
+
 
 // TODO: mix file ImgList into FileCenter
 const JudgeCenter: React.FC = () => {

@@ -10,7 +10,6 @@ const { Dragger } = Upload;
 const props: UploadProps = {
   name: 'files',
   multiple: true,
-  directory: true,
   action: `${WEB_SERVE}/api/upload-files`,
   data: { img_type: 0 },
   onChange(info) {
