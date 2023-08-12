@@ -23,7 +23,6 @@ export async function DeleteFile(body: API.DeleteFileParams, options?: { [key: s
   });
 }
 
-
 /** 上传特征 POST /api/generate-judgment */
 export async function generateJudgment(body: API.GenerateJudgmentParams, options?: { [key: string]: any }) {
   return request<API.generalResult>(`${WEB_SERVE}/api/generate-judgment`, {
@@ -35,6 +34,16 @@ export async function generateJudgment(body: API.GenerateJudgmentParams, options
     ...(options || {}),
   });
 }
+
+/** 上传特征 POST /api/trigger */
+export async function triggerJudgment(options?: { [key: string]: any }) {
+  return request<API.generalResult>(`${WEB_SERVE}/api/trigger`, {
+    method: 'GET',
+    ...(options || {}),
+  });
+}
+
+
 
 
 

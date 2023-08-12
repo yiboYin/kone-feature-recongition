@@ -3,10 +3,10 @@ import { request } from 'umi'
 import { PageContainer } from '@ant-design/pro-components';
 import { imageItem } from '@/utils/interfaces'
 import { Spin, FloatButton, message } from 'antd';
-import { QueryList, DeleteFile } from '@/services/apis'
+import { QueryList, DeleteFile, triggerJudgment } from '@/services/apis'
 import ImgCard from './comp/ImgCard'
 import ConfirmModal from '@/components/ConfirmModal';
-import { LeftOutlined, RightOutlined } from '@ant-design/icons'
+import { LeftOutlined, RightOutlined, ReloadOutlined } from '@ant-design/icons'
 import "./index.less";
 
 const ImgList: React.FC = () => {
@@ -95,6 +95,7 @@ const ImgList: React.FC = () => {
       <FloatButton.Group shape="square" style={{ right: 94 }}>
         <FloatButton icon={<LeftOutlined />} onClick={() => {current < (count % 10) && setCurrent(current + 1)}} />
         <FloatButton icon={<RightOutlined />} onClick={() => {current > 0 && setCurrent(current - 1)}} />
+        <FloatButton icon={<ReloadOutlined />} onClick={() => triggerJudgment()} />
     </FloatButton.Group>
     </PageContainer>
   );
