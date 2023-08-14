@@ -50,7 +50,7 @@ const ImgCard = ({ imgItem, initImgList }: ImgCardProps) => {
     '2': '审核通过',
     '3': '审核驳回'
   }
-  const score = (parseFloat(judge_score) * 100).toFixed(2)
+  const score = (Math.min(parseFloat(judge_score) * 100, 100)).toFixed(2)
   const scoreColor = judge_sign === '1' ? 'blue' : score > 70 ? 'green' : score <= 50 ? 'orange' : '';
 
   return (
