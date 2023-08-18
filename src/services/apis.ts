@@ -14,7 +14,7 @@ export async function QueryList(params: API.QueryListParams, options?: { [key: s
   });
 }
 
-/** 删除特征 DELETE /api/delete-features */
+/** 删除文件 DELETE /api/delete-features */
 export async function DeleteFile(body: API.DeleteFileParams, options?: { [key: string]: any }) {
   return request<{data: API.generalResult}>(`${WEB_SERVE}/api/delete`, {
     method: 'DELETE',
@@ -23,7 +23,7 @@ export async function DeleteFile(body: API.DeleteFileParams, options?: { [key: s
   });
 }
 
-/** 上传特征 POST /api/generate-judgment */
+/** 设为裁判 POST /api/generate-judgment */
 export async function generateJudgment(body: API.GenerateJudgmentParams, options?: { [key: string]: any }) {
   return request<API.generalResult>(`${WEB_SERVE}/api/generate-judgment`, {
     method: 'POST',
@@ -34,6 +34,20 @@ export async function generateJudgment(body: API.GenerateJudgmentParams, options
     ...(options || {}),
   });
 }
+
+/** 上传人工审核结果 POST /api/manual-review */
+export async function SubAudit(body: API.SubAuditParams, options?: { [key: string]: any }) {
+  return request<API.generalResult>(`${WEB_SERVE}/api/manual-review`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  });
+}
+
+
 
 /** 上传特征 POST /api/trigger */
 export async function triggerJudgment(options?: { [key: string]: any }) {

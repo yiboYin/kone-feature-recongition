@@ -12,7 +12,7 @@ import "./index.less";
 const ImgList: React.FC = () => {
   const [imgList, setImgList] = useState<Array<imageItem>>([]);
   const [loading, setLoading] = useState<boolean>(true)
-  const [current, setCurrent] = useState<number>(0)
+  const [current, setCurrent] = useState<number>(1)
   const [count, SetCount] = useState<number>(0)
   const initImgList = async () => {
     setLoading(true)
@@ -31,33 +31,8 @@ const ImgList: React.FC = () => {
 
   useEffect(() => {
     initImgList()
-  }, [])
-
-  useEffect(() => {
-    initImgList()
   }, [current])
 
-  const MODAL_TITLE = '确认删除'
-  const MODAL_CONTENT = '确认要删除此文件？'
-
-
-
-  const [showModal, setShowModal] = useState<boolean>(false)
-
-  const deleteConfirm = () => {
-    setShowModal(true)
-  }
-
-
-  const deleteHandler = () => {
-    // TODO 删除数据
-    setShowModal(false)
-  }
-
-  const cancelDelete = () => {
-    // TODO 删除数据
-    setShowModal(false)
-  }
 
   return (
     <PageContainer>
@@ -71,22 +46,15 @@ const ImgList: React.FC = () => {
             <ImgCard
               key={ele.id}
               imgItem={ele}
-              deleteHandler={deleteConfirm}
+              initImgList={initImgList}
             />
           )
         }
       </div>
-      <ConfirmModal
-        title={MODAL_TITLE}
-        content={MODAL_CONTENT}
-        showModal={showModal}
-        handleOk={deleteHandler}
-        handleCancel={cancelDelete}
-      />
       <FloatButton.Group shape="square" style={{ right: 94 }}>
-        <FloatButton icon={<LeftOutlined />} onClick={() => {current < (count % 10) && setCurrent(current + 1)}} />
-        <FloatButton icon={<RightOutlined />} onClick={() => {current > 0 && setCurrent(current - 1)}} />
-    </FloatButton.Group>
+        <FloatButton icon={<LeftOutlined />} onClick={() => {current > 1 && setCurrent(current - 1)}} />
+        <FloatButton icon={<RightOutlined />} onClick={() => {current < (1+Math.floor(count/10)) && setCurrent(current + 1)}} />
+      </FloatButton.Group>
     </PageContainer>
   );
 };

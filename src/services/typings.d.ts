@@ -26,6 +26,12 @@ declare namespace API {
         ids?: string[]
     };
 
+    type SubAuditParams = {
+        ids?: string[],
+        artificial_judge_sign: string
+
+    };
+
     type GetAllFiles = {
         data: Array<string>;
         success: boolean;

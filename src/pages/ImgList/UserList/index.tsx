@@ -53,7 +53,7 @@ const ImgList: React.FC = () => {
       <FloatButton.Group shape="square" style={{ right: 94 }}>
         <FloatButton icon={<LeftOutlined />} onClick={() => {current > 1 && setCurrent(current - 1)}} />
         <FloatButton icon={<RightOutlined />} onClick={() => {current < (1+Math.floor(count/10)) && setCurrent(current + 1)}} />
-    </FloatButton.Group>
+      </FloatButton.Group>
     </PageContainer>
   );
 };

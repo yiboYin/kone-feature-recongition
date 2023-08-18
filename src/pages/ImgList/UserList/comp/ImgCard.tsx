@@ -1,18 +1,18 @@
-import React from 'react';
-import { ImgCardProps, imageItem } from '@/utils/interfaces'
+import React, { useState, useEffect } from 'react';
+import { ImgCardProps } from '@/utils/interfaces'
 import { Card, Image, message, Tooltip } from 'antd';
 import './ImgCard.less'
 import { HighlightOutlined, ExclamationCircleOutlined } from '@ant-design/icons'
 import { WEB_SERVE } from '@/utils/constants';
-import { generateJudgment } from '@/services/apis';
+import { generateJudgment, SubAudit } from '@/services/apis';
 
 const ImgCard = ({ imgItem, initImgList }: ImgCardProps) => {
   const { img_path, artificial_judge_sign, judge_score, judge_sign } = imgItem
+  const fileName = img_path.split('/').pop();
 
   let btns = [];
   const setJudgeBtn = () => {
     const clickHandler = async () => {
-      const fileName = img_path.split('/').pop();
       const {success} = await generateJudgment({ids: [fileName] });
       if (success) {
         message.success('设置成功！')
@@ -29,8 +29,14 @@ const ImgCard = ({ imgItem, initImgList }: ImgCardProps) => {
   }
 
   const setArtifBtn = () => {
-    const clickHandler = () => {
-      console.log('say hello2')
+    const clickHandler = async () => {
+      const {success} = await SubAudit({ids: [fileName], artificial_judge_sign: 1 });
+      if (success) {
+        message.success('申请成功！')
+        initImgList()
+      } else {
+        message.error('申请失败！')
+      }
     }
     return (
       <Tooltip title="申请人工复核">
@@ -50,8 +56,23 @@ const ImgCard = ({ imgItem, initImgList }: ImgCardProps) => {
     '2': '审核通过',
     '3': '审核驳回'
   }
-  const score = (Math.min(parseFloat(judge_score) * 100, 100)).toFixed(2)
-  const scoreColor = judge_sign === '1' ? 'blue' : score > 70 ? 'green' : score <= 50 ? 'orange' : '';
+  const score = parseFloat((Math.min(parseFloat(judge_score) * 100, 100)).toFixed(2))
+
+  const [scoreColor, setScoreColor] = useState('');
+  useEffect(() => {
+    let color = '';
+    if (judge_sign === '1') {
+      color = 'blue'
+    } else if (artificial_judge_sign === '2' || score > 70 ) {
+      color = 'green'
+    } else if (artificial_judge_sign === '3') {
+      color = 'red'
+    } else if (artificial_judge_sign === '1' || score <= 50) {
+      color = 'orange'
+    }
+    setScoreColor(color)
+  }, [judge_sign, artificial_judge_sign, score])
+  // const scoreColor = judge_sign === '1' ? 'blue' : score > 70 ? 'green' : score <= 50 ? 'orange' : '';
 
   return (
     <Card
@@ -61,12 +82,18 @@ const ImgCard = ({ imgItem, initImgList }: ImgCardProps) => {
       actions={btns}
     >
       <Image src={`${WEB_SERVE}/${img_path}`} />
-      <div class="card-info">
-        <div class="score-wrapper">
+      <div className="card-info">
+        <div className="score-wrapper">
           <label>置信度: </label>
           <span className={`img-card-warpper ${scoreColor ? ('text-color-' + scoreColor) : ''}`}>{`${score} %`}</span>
         </div>
-        {artificial_judge_sign !== '' && <div>人工审核状态: {`${ARTIF_STATUS_ENUMS[artificial_judge_sign]}`}</div>}
+        {
+          artificial_judge_sign !== '' &&
+          <div>
+            <label>人工审核状态: </label>
+            <span>{`${ARTIF_STATUS_ENUMS[artificial_judge_sign]}`}</span>
+          </div>
+        }
         {judge_sign === '1' && <div>被选为裁判中</div>}
       </div>
     </Card>
