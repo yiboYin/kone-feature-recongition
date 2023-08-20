@@ -70,6 +70,12 @@ export default [
     component: './ImgList/ArtifList',
   },
   {
+    name: '人工标注列表',
+    icon: 'table',
+    path: '/ManualList',
+    component: './ImgList/ManualList',
+  },
+  {
     path: '/imgSegament/:id',
     name: 'list.img-segament',
     icon: 'smile',

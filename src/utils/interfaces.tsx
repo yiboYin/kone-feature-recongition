@@ -7,7 +7,8 @@ export interface imageItem {
   img_type: string,
   judge_sign: string,
   judge_score: string,
-  artificial_judge_sign: string
+  artificial_judge_sign: string,
+  manual_sign: string
 }
 
 export interface imgItem {

@@ -12,6 +12,12 @@ declare namespace API {
         judge_sign?: string;
     };
 
+    type QueryManualListParams = {
+        page_number?: number;
+        page_size?: number;
+        manual_sign?: string[];
+    };
+
     type generalResult = {
         data: string;
         success: boolean;
@@ -29,7 +35,11 @@ declare namespace API {
     type SubAuditParams = {
         ids?: string[],
         artificial_judge_sign: string
+    };
 
+    type ManualSignParams = {
+        ids?: string[],
+        manual_sign: string
     };
 
     type GetAllFiles = {
