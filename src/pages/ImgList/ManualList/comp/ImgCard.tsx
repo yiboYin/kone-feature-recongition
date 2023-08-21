@@ -7,13 +7,12 @@ import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
 import { ManualSign } from '@/services/apis';
 
 const ImgCard = ({ imgItem, initImgList }: ImgCardProps) => {
-  const { img_path, manual_sign } = imgItem
-  const fileName = img_path.split('/').pop();
+  const { img_path, manual_sign, id } = imgItem
 
   let btns = [];
   const setConfirmBtn = () => {
     const clickHandler = async () => {
-      const {success} = await ManualSign({ids: [fileName], manual_sign: '2' });
+      const {success} = await ManualSign({ids: [id], manual_sign: '2' });
       if (success) {
         message.success('标注成功！')
         initImgList()
@@ -30,7 +29,7 @@ const ImgCard = ({ imgItem, initImgList }: ImgCardProps) => {
 
   const setRejectBtn = () => {
     const clickHandler = async () => {
-      const {success} = await ManualSign({ids: [fileName], manual_sign: '3' });
+      const {success} = await ManualSign({ids: [id], manual_sign: '3' });
       if (success) {
         message.success('标注成功！')
         initImgList()

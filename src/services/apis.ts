@@ -59,9 +59,9 @@ export async function SubAudit(body: API.SubAuditParams, options?: { [key: strin
   });
 }
 
-/** 上传人工标注结果 POST /api/manual-sign */
+/** 上传人工标注结果 POST /api/set-manual-sign */
 export async function ManualSign(body: API.ManualSignParams, options?: { [key: string]: any }) {
-  return request<API.generalResult>(`${WEB_SERVE}/api/manual-sign`, {
+  return request<API.generalResult>(`${WEB_SERVE}/api/set-manual-sign`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

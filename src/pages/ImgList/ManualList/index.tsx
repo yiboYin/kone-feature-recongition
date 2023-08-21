@@ -19,7 +19,7 @@ const ImgList: React.FC = () => {
   const initImgList = async () => {
     setLoading(true)
     try {
-      const result = await QueryManualList({page_number: current, page_size: 10, manual_sign: statusParams});
+      const result = await QueryManualList({page_number: current, page_size: 25, manual_sign: statusParams});
       console.log('调试 ---- ', result);
       console.log('result', result.data)
       setImgList(result?.data);
@@ -33,7 +33,7 @@ const ImgList: React.FC = () => {
 
   useEffect(() => {
     initImgList()
-  }, [current])
+  }, [current, statusParams])
 
   const options: SelectProps['options'] = [
     {label: '未标注', value: '1'},
