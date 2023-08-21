@@ -2,24 +2,23 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { request } from 'umi'
 import { PageContainer } from '@ant-design/pro-components';
 import { imageItem } from '@/utils/interfaces'
-import { Spin, FloatButton, Select } from 'antd';
+import { Spin, Select, Pagination  } from 'antd';
 import type { SelectProps } from 'antd';
 import { QueryManualList } from '@/services/apis'
 import ImgCard from './comp/ImgCard'
-import ConfirmModal from '@/components/ConfirmModal';
-import { LeftOutlined, RightOutlined } from '@ant-design/icons'
 import "./index.less";
 
 const ImgList: React.FC = () => {
   const [imgList, setImgList] = useState<Array<imageItem>>([]);
   const [loading, setLoading] = useState<boolean>(true)
   const [current, setCurrent] = useState<number>(1)
+  const [pageSize, setPageSize] = useState<number>(20)
   const [count, SetCount] = useState<number>(0)
   const [statusParams, setStatusParams] = useState<string[]>(['1', '2', '3'])
   const initImgList = async () => {
     setLoading(true)
     try {
-      const result = await QueryManualList({page_number: current, page_size: 25, manual_sign: statusParams});
+      const result = await QueryManualList({page_number: current, page_size: pageSize, manual_sign: statusParams});
       console.log('调试 ---- ', result);
       console.log('result', result.data)
       setImgList(result?.data);
@@ -33,7 +32,7 @@ const ImgList: React.FC = () => {
 
   useEffect(() => {
     initImgList()
-  }, [current, statusParams])
+  }, [current, pageSize, statusParams])
 
   const options: SelectProps['options'] = [
     {label: '未标注', value: '1'},
@@ -46,6 +45,11 @@ const ImgList: React.FC = () => {
     setStatusParams(value);
     setCurrent(1);
   };
+
+  const paginationChangeHandler = (page, pageSize) => {
+    setCurrent(page)
+    setPageSize(pageSize)
+  }
 
   return (
     <PageContainer>
@@ -64,6 +68,15 @@ const ImgList: React.FC = () => {
             onChange={handleChange}
             options={options}
           />
+          <Pagination
+            className='pagination-warpper'
+            total={count}
+            showTotal={(total, range) => `${range[0]}-${range[1]} of ${total} items`}
+            pageSize={pageSize}
+            current={current}
+            showSizeChanger
+            onChange={paginationChangeHandler}
+          />
         </div>
         <div className='img-list-wrapper'>
           {
@@ -77,10 +90,6 @@ const ImgList: React.FC = () => {
           }
         </div>
       </div>
-      <FloatButton.Group shape="square" style={{ right: 94 }}>
-        <FloatButton icon={<LeftOutlined />} onClick={() => {current > 1 && setCurrent(current - 1)}} />
-        <FloatButton icon={<RightOutlined />} onClick={() => {current < (1+Math.floor(count/10)) && setCurrent(current + 1)}} />
-      </FloatButton.Group>
     </PageContainer>
   );
 };
